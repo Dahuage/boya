@@ -1,0 +1,1 @@
+interface IMapLike<T> {[idx:string]: T};

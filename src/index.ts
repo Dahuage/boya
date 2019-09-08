@@ -1,64 +1,38 @@
-function hello(compiler: string) {
-    console.log(`Hello from ${compiler}`);
-}
-hello("TypeScript");
+import { makeParser } from './parser';
+import { meiLoader } from './netIo';
+import { MeiDoc } from './types';
+import { IView, View } from './view';
+import { IEvent } from './event';
+import { parse } from './libs/uuid';
 
-console.log("============")
-let o = {a: "foo", b: 12, c:"bar"}
-let {a, b} = o
-console.log(a, b)
+type handler = (e: IEvent)=>void
 
+export class Mei {
+    private view: IView
+    private doc: MeiDoc
+    private eventHandlers: IMapLike<handler>
+    private listenedEvents: ArrayLike<IEvent>
 
-interface Point {
-    readonly x: number;
-    readonly y: number;
-}
-
-let x: Point = {'x': 1, 'y':2}
-console.log(x)
-
-console.log("=======")
-
-interface Shape {
-    color: string;
-}
-
-interface Square extends Shape {
-    sideLength: number;
-}
-
-let square = {} as Square
-square.color = 'red'
-console.log(square)
-
-console.log("=======================================")
-class Animal {
-    move(distanceInMeters: number = 0) {
-        console.log(`Animal moved ${distanceInMeters}m.`);
+    constructor(){
+        let meiText = meiLoader()
+        let parser = makeParser(meiText, {})
+        let ast = parser.parse()
+        this.doc = new MeiDoc(ast)
+        this.view = new View()
+        this.view.setDoc(this.doc)
     }
+
+    public render(){}
+    private render2SVG(){}
+    public on(e: IEvent, cb: handler){}
+    public listenEvent(){}
+    public registerEvent(e: IEvent, handler: handler){}
+    private trigger(){}
+
+    public zoom(){}
+    public reDraw(){}
+    public export(){}
+    public play(){}
+    public genMidi(){}
+    private distribute(){}
 }
-
-class Dog extends Animal {
-    bark() {
-        console.log('Woof! Woof!');
-    }
-}
-
-let dog = new Dog()
-
-
-
-console.log("========================")
-type Keys = 'option1' | 'option2';
-type Flags = { [K in Keys]: boolean };
-
-
-interface Person {
-    name: string
-    age: number
-}
-type ReadonlyPerson = Readonly<Person>
-
-let person:Person = {name:'name', age:18}
-let readonly_person:ReadonlyPerson = {name:'name1', age:19}
-console.log('======', person, readonly_person)

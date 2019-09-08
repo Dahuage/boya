@@ -1,2 +1,2 @@
-A music score engravement lib
-=============================
+A music score engravement frame based on [MEI](https://music-encoding.org/)
+===========================================================================

@@ -2,7 +2,7 @@
   "name": "boya",
   "version": "0.0.0",
   "description": "🎵 Music notation engraving library for MEI",
-  "main": "index.js",
+  "private": true,
   "directories": {
     "lib": "lib",
     "test": "test"
@@ -13,7 +13,9 @@
   "devDependencies": {
     "gulp": "^4.0.2",
     "gulp-typescript": "^6.0.0-alpha.1",
-    "typescript": "^3.7.4"
+    "typescript": "^3.7.4",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
