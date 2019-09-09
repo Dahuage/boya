@@ -1,11 +1,15 @@
 /**
- *  MEI shared module implement.
+ *  MEI shared module implementary.
  */
 
-/// ../meiBase.ts
+import * as base from '../meiBase'
 
-export interface AccidInterface {};
-export class Accid extends Element implements AccidInterface {};
+export interface AccidInterface extends base.ElementInterface{};
+export class Accid extends base.Element implements AccidInterface {
+    constructor(){
+        super();
+    }
+};
 
 export interface ActorInterface {};
 export class Actor extends Element implements AccidInterface {};
