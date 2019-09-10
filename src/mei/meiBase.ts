@@ -44,7 +44,7 @@ export abstract class Element extends BaseObject implements ElementInterface {
         super();
     }
     private registerAttr(attr: AttributeInterface): void {
-        this.attrs.add(attr.id, attr);
+        this.attrs.set(attr.id, attr);
     }
     private getAttr(attrId: string): AttributeInterface | void {
         return this.attrs.get(attrId);

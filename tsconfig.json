@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
       "target": "es6",
-      "lib": ["es5", "es6", "dom"],
+      "lib": ["es6", "dom"],
       "noEmitHelpers": false,
       "emitDecoratorMetadata": true,
       "experimentalDecorators": true,
@@ -19,9 +19,8 @@
       "outDir": "dist",
       "baseUrl": "src"
     },
-    "files": [
-      "src/index.ts"
-    ],
+    "files": ["./src/**/*"],
+    "include": ["./src/**/*"],
     "exclude": [
       "node_modules"
     ],
