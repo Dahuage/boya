@@ -10,6 +10,7 @@ export class Accid extends base.Element implements AccidInterface {
         super();
     }
 };
+
 export interface ActorInterface {};
 export class Actor extends base.Element implements AccidInterface {};
 
