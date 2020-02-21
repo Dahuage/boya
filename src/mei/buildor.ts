@@ -15,27 +15,28 @@ const ProxyHandler = {
     }
 }
 
-export function attribute<T>(c: mb.AttributeConstrucor<T>, o: mb.AttrOptions): mb.AttributeInterface<T>{
+export function attribute<T>(c: mb.IAttributeConstrucor, o: mb.IAttrOptions): mb.IAttributeInterface{
     return new c(o);
 }
-export function element(c: mb.ElementConstructor, o: mb.ElementOptions): mb.ElementInterface{
+
+export function element(c: mb.IElementConstructor, o: mb.IElementOptions): mb.IElementInterface{
     return new Proxy(new c(o), ProxyHandler);
 }
-
 
 
 /**
  * Abstract factory for mei
  */
 export interface MeiAbstracFactory {
-    createElement(c: mb.ElementConstructor, o: mb.ElementOptions): mb.ElementInterface;
-    createAttr(c: mb.AttributeConstrucor, o: mb.AttrOptions): mb.AttributeInterface;
+    createElement(c: mb.IElementConstructor, o: mb.IElementOptions): mb.IElementInterface;
+    createAttr(c: mb.IAttributeConstrucor, o: mb.IAttrOptions): mb.IAttributeInterface;
 }
+
 export class MeiAbstracFactory implements MeiAbstracFactory{
-    createElement(c: mb.ElementConstructor, o: mb.ElementOptions): mb.ElementInterface{
+    createElement(c: mb.IElementConstructor, o: mb.IElementOptions): mb.IElementInterface{
         return element(c, o);
     }
-    createAttr(c: mb.AttributeConstrucor, o: mb.AttrOptions): mb.AttributeInterface{
+    createAttr(c: mb.IAttributeConstrucor, o: mb.IAttrOptions): mb.IAttributeInterface{
         return attribute(c, o);
     }
 }

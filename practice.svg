@@ -1,0 +1,19 @@
+<svg width="200px" height="200px" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+<!-- 水平线段 -->
+<line x1="40" y1="20" x2="80" y2="20" style="stroke: black;" /> <!-- 垂直线段 -->
+<line x1="0.7cm" y1="1cm" x2="0.7cm" y2="2.0cm" style="stroke: black;" />
+<!-- 对角线段 -->
+
+<rect x="10" y="10" width="200" height="20" stroke="black" fill="none">
+<animate attributeName="width" attributeType="XML" from="200" 
+         to="20" begin="0s" dur="5s" fill="freeze" />
+</rect>
+
+<rect x="10" y="10" width="20" height="20"
+style="stroke: black; fill: green; style: fill-opacity: 0.25;"> <animate attributeName="width" attributeType="XML"
+from="20" to="200" begin="0s" dur="8s" fill="freeze"/> <animate attributeName="height" attributeType="XML"
+from="20" to="150" begin="0s" dur="8s" fill="freeze"/> <animate attributeName="fill-opacity" attributeType="CSS"
+from="0.25" to="1" begin="0s" dur="3s" fill="freeze"/> <animate attributeName="fill-opacity" attributeType="CSS"
+from="1" to="0.25" begin="3s" dur="3s" fill="freeze"/> </rect>
+
+<line x1="30" y1="30" x2="85" y2="85" style="stroke: black;" /> </svg>

@@ -338,14 +338,14 @@
               </staffDef>
             </staffGrp>
           </scoreDef>
+
           <section>
             <measure n="1" xml:id="d475474e18">
               <staff n="1">
                 <layer n="1">
                   <rest xml:id="d475474e39" dur="8"/>
                   <beam>
-                    <note xml:id="d475474e47" pname="b" oct="5" dur="8" stem.dir="down"
-                      accid.ges="f"/>
+                    <note xml:id="d475474e47" pname="b" oct="5" dur="8" stem.dir="down" accid.ges="f"/>
                     <note xml:id="d475474e65" pname="a" oct="5" dur="8" stem.dir="down" syl="#"/>
                   </beam>
                 </layer>
@@ -354,8 +354,7 @@
                 <layer n="1">
                   <rest xml:id="d475474e106" dur="8"/>
                   <beam>
-                    <note xml:id="d475474e114" pname="b" oct="5" dur="8" stem.dir="down"
-                      accid.ges="f"/>
+                    <note xml:id="d475474e114" pname="b" oct="5" dur="8" stem.dir="down" accid.ges="f"/>
                     <note xml:id="d475474e132" pname="a" oct="5" dur="8" stem.dir="down"/>
                   </beam>
                 </layer>
@@ -388,6 +387,7 @@
                 </layer>
               </staff>
             </measure>
+			
             <measure n="2" xml:id="d475474e326">
               <staff n="1">
                 <layer n="1">
@@ -1728,6 +1728,7 @@
               </staff>
             </measure>
           </section>
+
           <section>
             <scoreDef meter.count="4" meter.unit="4"/>
             <measure n="32" xml:id="d475474e6474">
@@ -11268,6 +11269,7 @@
           </section>
         </score>
       </mdiv>
+
       <mdiv n="2" decls="#movement2">
         <score>
           <scoreDef meter.count="4" meter.unit="4" key.sig="2f">
@@ -13005,6 +13007,7 @@
           </section>
         </score>
       </mdiv>
+
       <mdiv n="3" decls="#movement3">
         <score>
           <scoreDef meter.count="3" meter.unit="4" key.sig="2f">
@@ -25473,6 +25476,7 @@
           </section>
         </score>
       </mdiv>
+	  
     </body>
   </music>
 </mei>

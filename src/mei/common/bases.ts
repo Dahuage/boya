@@ -6,42 +6,45 @@
 /**
  * Options
  */
-interface Options {
+interface IOptions {
     [optionName: string]: any;
 }
-interface Data<T>{};
 
+interface IData<T>{}
 /**
  * Base interface and class for attribute.
  */
-export interface AttrOptions extends Options {}
-export interface AttributeConstrucor<T> {
-    new (attrOptions: AttrOptions): AttributeInterface<T>;
+export interface IAttrOptions extends IOptions {}
+export interface IAttributeConstrucor {
+    new (attrOptions: IAttrOptions): IAttributeInterface;
 }
-export interface AttributeInterface<U extends Data<U>> {
+export interface IAttributeInterface {
     readonly id: string,
     readonly name: string,
     readonly mutable: boolean,
-    value: U,
+    value: any,
 }
-export abstract class Attribute implements AttributeInterface{
-    constructor(public id: string){}
+export abstract class Attribute implements IAttributeInterface{
+    readonly id: string;
+    readonly name: string;
+    readonly mutable: boolean;
+    public value: any;
+    constructor(id: string){}
 }
+
 
 /**
  * Base interface and class for element.
  */
-enum ClassId {BOUNDING_BOX = 0};
-enum Accessor { SELF = 0, CONTENT};
-interface Dot{
-    readonly x:number;
-    readonly y:number;
-};
-interface Doc{};
-interface FloatingCurvePositioner{};
-interface SMuFLGlyphAnchor{};
-interface Glyph{};
-export interface BoundingBox{}
+enum ClassId {BOUNDING_BOX = 0}
+enum Accessor { SELF = 0, CONTENT}
+interface Dot{readonly x:number; readonly y:number;}
+interface Doc{}
+interface FloatingCurvePositioner{}
+interface SMuFLGlyphAnchor{}
+interface Glyph{}
+
+export interface BoundingBox{readonly id:string}
 export abstract class BoundingBox implements BoundingBox{
 
     /**
@@ -98,7 +101,7 @@ export abstract class BoundingBox implements BoundingBox{
      * @name Methods for updating the bounding boxes and for providing
      * information about their status.
      */
-    private caculateXY(a:number, b:number, isX:boolean): Array<number>{
+    private calculateXY(a:number, b:number, isX:boolean): Array<number>{
         let min: number = Math.min(a, b);
         let max: number = Math.max(a, b);
         let drawing: number = isX ? this.GetDrawingX() : this.GetDrawingY();
@@ -108,15 +111,15 @@ export abstract class BoundingBox implements BoundingBox{
     public UpdateContentBBoxX(x1:number, x2:number): void {
         let minX: number = Math.min(x1, x2);
         let maxX: number = Math.max(x1, x2);
-    
+
         let drawingX: number = this.GetDrawingX();
-    
+
         minX -= drawingX;
         maxX -= drawingX;
 
         if (this.m_contentBB_x1 > minX) this.m_contentBB_x1 = minX;
-        if (this.m_contentBB_x2 < maxX) this.m_contentBB_x2 = maxX;    
-    };
+        if (this.m_contentBB_x2 < maxX) this.m_contentBB_x2 = maxX;
+    }
 
     public UpdateContentBBoxY(y1:number, y2:number): void {
         let min_y: number = Math.min(y1, y2);
@@ -129,16 +132,16 @@ export abstract class BoundingBox implements BoundingBox{
 
         if (this.m_contentBB_y1 > min_y) this.m_contentBB_y1 = min_y;
         if (this.m_contentBB_y2 < max_y) this.m_contentBB_y2 = max_y;
-    };
+    }
 
     private minMax(x1:number, x2:number):number[] {
-        let r = x1 > x2 ? [x2, x1] : [x1, x2];
-        return r;
+        return x1 > x2 ? [x2, x1] : [x1, x2];
     }
+
     public UpdateSelfBBoxX(x1:number, x2:number): void {
         // let min_x: number = Math.min(x1, x2);
         // let max_x: number = Math.max(x1, x2);
-        let [min_x, max_x] = this.minMax(x1, x2)
+        let [min_x, max_x] = this.minMax(x1, x2);
         let drawingX = this.GetDrawingX();
         min_x -= drawingX;
         max_x -= drawingX;
@@ -186,7 +189,7 @@ export abstract class BoundingBox implements BoundingBox{
     };
     public HasEmptyBB(): boolean{
         return [this.m_contentBB_x1, this.m_contentBB_x2,
-                this.m_contentBB_y1, this.m_contentBB_y2].every((v)=>{v!==0})
+                this.m_contentBB_y1, this.m_contentBB_y2].every((v)=>{return v!==0})
     };
 
     /**
@@ -255,7 +258,7 @@ export abstract class BoundingBox implements BoundingBox{
      * @name Return the overlap on the left / right / top / bottom looking at bounding box anchor points
      */
     public HorizontalLeftOverlap(other:BoundingBox, doc:Doc, margin:number, vMargin:number):number{return 0}
-    public HorizontalRightOverlap(other:BoundingBox, doc:Doc, margin:number, vMaring:number):number{return 0}
+    public HorizontalRightOverlap(other:BoundingBox, doc:Doc, margin:number, vMargin:number):number{return 0}
     public VerticalTopOverlap(other:BoundingBox, doc:Doc, margin:number, hMargin:number):number{return 0}
     public VerticalBottomOverlap(other:BoundingBox, doc:Doc, margin:number, hMargin:number):number{return 0}
     
@@ -263,7 +266,9 @@ export abstract class BoundingBox implements BoundingBox{
     /**
      * Return true if the bounding box encloses the point.
      */
-    public Encloses(point:Dot):boolean{return};
+    public Encloses(point:Dot):boolean{
+        return
+    };
 
     /**
      * Return true if the bounding box intersects with the curve represented by the FloatingPositioner.
@@ -299,21 +304,21 @@ export abstract class BoundingBox implements BoundingBox{
     /**
      * Calculate the point bezier point position for a t between 0.0 and 1.0
      */
-    static CalcDeCasteljau(bezier:Array<Dot>, x:number):Dot{let a:Dot={};return a};
-
+    static CalcDeCasteljau(bezier: Array<Dot>, x: number): Dot {
+        return {x: 0, y: 0}
+    }
     /**
      * Calculate the position of the bezier above and below for a thick bezier
      */
     static CalcThickBezier(bezier:ReadonlyArray<Dot>, thickness:number, angle:number,
-        topBezier:Dot, bottomBezier:Dot):void{
-
+                           topBezier:Dot, bottomBezier:Dot):void{
     };
 
     /**
      * Approximate the bounding box of a bezier taking into accound the height and the width.
      */
     static ApproximateBezierBoundingBox(bezier:ReadonlyArray<Dot>, pos:Dot, width:number,
-        height:number, minYPos:number, maxYPos:number):void{
+                                        height:number, minYPos:number, maxYPos:number):void{
 
     };
 
@@ -349,40 +354,36 @@ export abstract class BoundingBox implements BoundingBox{
 }
 
 
-export interface ObjectOptions extends Options{}
+export interface IObjectOptions extends IOptions{}
 export interface IObject {}
 export abstract class BaseObject extends BoundingBox implements IObject{
     // public
+
 
     // private
     private meiParent: IObject;
     private meiUuid: string;
     private meiClassId: string;
-    private meiIsRefrence: boolean;
+    private meiIsReference: boolean;
     private meiIsAttr: boolean;
-    // private meiAttrs: Aarray<AttributeInterface>; here or elements?
+    private meiAttrs: Array<IAttributeInterface<T>>;
+
     // protected
     protected meiChildren: Array<IObject> = [];
-
 }
 
 
-export interface ElementOptions extends Options{}
-export interface ElementConstructor {
-    new (elementOptions: ElementOptions): ElementInterface;
-}
-export interface ElementInterface {
-    attrs: Map<string, AttributeInterface>
-}
-export abstract class Element extends BaseObject implements ElementInterface {
-    attrs: Map<string, AttributeInterface> = new Map();
-    constructor(){
-        super();
-    }
-    protected registerAttr<T>(attr: AttributeInterface<T>): void {
+export interface IElementOptions extends IOptions{}
+export interface IElementConstructor {new (elementOptions: IElementOptions): IElementInterface}
+export interface IElementInterface {attrs: Map<string, IAttributeInterface>}
+
+export abstract class Element extends BaseObject implements IElementInterface {
+    attrs: Map<string, IAttributeInterface> = new Map();
+    protected constructor(){super()}
+    protected registerAttr<T>(attr: IAttributeInterface): void {
         this.attrs.set(attr.id, attr);
     }
-    protected getAttr(attrId: string): AttributeInterface | void {
+    protected getAttr(attrId: string): IAttributeInterface | void {
         return this.attrs.get(attrId);
     }
 }
