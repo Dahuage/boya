@@ -3,7 +3,7 @@
  * Base class of attribute and element.
  * @author dahua<guzhaoer@gmail.com>
  */
-import {Options} from './common'
+import {Options} from '../../utils.option'
 
 /**
  * Base interface and class for attribute.

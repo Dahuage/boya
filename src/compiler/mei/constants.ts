@@ -3,26 +3,38 @@
  * @author dahua<guzhaoer@gmail.com>
  */
 
-enum MeiVersion {
-    MEI_NULL = 0,
-    MEI_2013,
-    MEI_3_0_0,
-    MEI_4_0_0
-}
+// enum MeiVersion {
+//     MEI_NULL = 0,
+//     MEI_2013,
+//     MEI_3_0_0,
+//     MEI_4_0_0
+// }
 
-enum MeiElementType {
-    CONTROL_ELEMENT = 0,
-    EDITORIAL_ELEMENT,
-    LAYER_ELEMENT,
-    RUNNING_ELEMENT,
-    SCOREDEF_ELEMENT,
-    SYSTEM_ELEMENT,
-}
+// export const enum MeiElementType {
+//     CONTROL_ELEMENT = 0,
+//     EDITORIAL_ELEMENT,
+//     LAYER_ELEMENT,
+//     RUNNING_ELEMENT,
+//     SCOREDEF_ELEMENT,
+//     SYSTEM_ELEMENT,
+// }
+
+// export const enum LayoutCtlCls{
+//     BOUNDING_BOX = 0,
+//     OBJECT,
+//     DEVICE_CONTEXT,
+//     FLOATING_OBJECT,
+//     FLOATING_POSITIONER,
+//     FLOATING_CURVE_POSITIONER,
+//     BBOX_DEVICE_CONTEXT,
+//     SVG_DEVICE_CONTEXT,
+//     CUSTOM_DEVICE_CONTEXT,
+// }
 
 /**
  * All mei attrs class.
  */
-enum AttClassId {
+export const enum MeiAttrToken {
     ATT_CLASS_UNKNOWN = 0,
 
     ATT_NOTATIONTYPE,
@@ -288,16 +300,8 @@ enum AttClassId {
     ATT_CLASS_max
 };
 
-/**
- * All class 
- */
-enum ClassId {
-    BOUNDING_BOX = 0, // Should not be instanciated as is
-    OBJECT, // Should not be instanciated as is
-    DEVICE_CONTEXT, // Should not be instanciated as is,
-    FLOATING_OBJECT,
-    FLOATING_POSITIONER,
-    FLOATING_CURVE_POSITIONER,
+
+export const enum MeiTagToken{
     // Ids for ungrouped objects
     ALIGNMENT,
     ALIGNMENT_REFERENCE,
@@ -445,10 +449,16 @@ enum ClassId {
     REND,
     TEXT,
     TEXT_ELEMENT_max,
-    //
-    BBOX_DEVICE_CONTEXT,
-    SVG_DEVICE_CONTEXT,
-    CUSTOM_DEVICE_CONTEXT,
-    //
+
     UNSPECIFIED
 };
+
+interface MapLike<T> {[idx:string]: T};
+
+export const TextToTagObj: MapLike<MeiTagToken> = {
+    "ALIGNMENT": MeiTagToken.ALIGNMENT,
+}
+
+export const TextToAttrObj: MapLike<MeiAttrToken> = {
+    "ATT_NOTATIONTYPE": MeiAttrToken.ATT_NOTATIONTYPE,
+}
