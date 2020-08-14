@@ -3,6 +3,20 @@
  * @author dahua<guzhaoer@gmail.com>
  */
 
+export interface IMeiDoc {
+    root: MeiToken;
+    traverse(tCallback: (t:MeiToken)=>void):void;
+}
+
+export class MeiDoc implements IMeiDoc{
+   root: MeiToken;
+   public constructor(root: MeiToken){
+       this.root = root
+   }
+   public traverse(tCallback: (t:MeiToken)=>void):void{}
+   public addChild(token){}
+}
+
 export interface TextRange {
     posi: number;
     end: number;
@@ -193,13 +207,15 @@ export type SystemLike =
  * All mei attrs class.
  */
 
+ 
+
 export const enum MeiToken{
     UNKNOWN,
     // Ids for ungrouped objects
     ALIGNMENT,
     ALIGNMENT_REFERENCE,
     CLEF_ATTR,
-    DOC,
+    MEI,
     FACSIMILE,
     FB,
     GRACE_ALIGNER,
@@ -630,6 +646,7 @@ export interface NodeArray<T extends INode> extends ReadonlyArray<T>, TextRange 
 
 export interface Token<TKind extends MeiToken> extends INode {kind: TKind;}
 
+export interface IMeiNode extends INode{};
 export interface IScoreNode extends INode {};
 export interface IScoeDefNode extends INode {};
 export interface IStaffGrpNode extends INode {};

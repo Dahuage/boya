@@ -2,9 +2,7 @@ import {MeiToken, INode, CharacterCodes} from "./types"
 
 
 export interface IContainer {[name: string]:any};
-
 export interface IScanner extends IPosition {}
-
 export interface IPosition {
     line: number;
     column: number;
@@ -15,13 +13,14 @@ export interface TextRange {
     start: number;
     end: number;
     posi: Position;
+    page: number;
 }
 
 export class Scanner implements IScanner {
     public static INSTANCE: Scanner;
 
     private readonly text: string | null | undefined | '';
-    private tempText: string | '';
+    private remainderText: string | '';
     private currentText: string;
     private end: number = this.text.length;
     private skipTrivia: boolean = true;
@@ -35,14 +34,13 @@ export class Scanner implements IScanner {
 
     private startPos: number;
     private tokenPos: number;
-    private token: MeiToken;
     private tokenValue: string;
 
     private stackDep: number = 0;
-    private stack: MeiToken[];
 
     constructor(options: Object){
         // this.skipTrivia = options.skipTrivia;
+        this.initRoot()
     };
 
     public tell(): IPosition{
@@ -55,7 +53,7 @@ export class Scanner implements IScanner {
     public seek(p: number){
         this.cursor = p;
     }
-    public static codePointAt: (s: string, i: number) => number = (String.prototype as any).codePointAt ? (s, i) => (s as any).codePointAt(i) : function codePointAt(str, i): number {
+    public codePointAt: (s: string, i: number) => number = (String.prototype as any).codePointAt ? (s, i) => (s as any).codePointAt(i) : function codePointAt(str, i): number {
         // from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/codePointAt
         const size = str.length;
         // Account for out-of-bounds indices:
@@ -76,8 +74,11 @@ export class Scanner implements IScanner {
     }
     public static isLowerCaseLetter(ch: number):boolean{
         return ch >= CharacterCodes.a && ch <= CharacterCodes.z;
-    }    
-    public scan(): MeiToken{
+    }
+    public initRoot():void {
+        
+    }
+    public scan(){
         while (true) {
             let posi = this.cursor;
             const ch: number = this.codePointAt(this.text, posi);
@@ -100,6 +101,7 @@ export class Scanner implements IScanner {
                 case CharacterCodes.emSpace:
                 case CharacterCodes.enSpace:
                 default:
+
             }
         }
     }
@@ -169,8 +171,18 @@ export class Scanner implements IScanner {
         this.anchor = textPos;
         this.startPos = textPos;
         this.tokenPos = textPos;
-        this.token = MeiToken.UNKNOWN;
         this.tokenValue = undefined!;
+    }
+
+    public buildImeiDoc(): void{
+        let root = this.nextToken();
+        let meiDoc = new MeiDoc(root);
+
+        while (true) {
+            let token = this.nextToken();
+            meiDoc.addChild(token)
+        }
+        return
     }
 }
 
