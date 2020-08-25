@@ -207,6 +207,8 @@ export type SystemLike =
 export const enum MeiToken{
     UNKNOWN,
     ROOT,
+
+    COMMENT,
     // Ids for ungrouped objects
     ALIGNMENT,
     ALIGNMENT_REFERENCE,
@@ -668,6 +670,11 @@ export interface ILayerNode extends INode {};
 export interface IRestNode extends INode {};
 export interface IBeamNode extends INode {};
 export interface INoteNode extends INode {};
+export interface ICommentNode extends INode {
+    kind: MeiToken.COMMENT;
+    postion: IPosition;
+    end: number;
+};
 
 
 class Node {}

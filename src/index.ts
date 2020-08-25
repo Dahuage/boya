@@ -3,14 +3,15 @@ import { meiLoader } from './netIo';
 import { MeiDoc } from './types';
 import { IView, View } from './view';
 import { IEvent } from './event';
-import { parse } from './libs/uuid';
 
-type handler = (e: IEvent)=>void
+type ehandler = (e: IEvent)=>void
+
 
 export class Mei {
+
     private view: IView
     private doc: MeiDoc
-    private eventHandlers: IMapLike<handler>
+    private eventHandlers: IMapLike<ehandler>
     private listenedEvents: ArrayLike<IEvent>
 
     constructor(){
@@ -22,17 +23,29 @@ export class Mei {
         this.view.setDoc(this.doc)
     }
 
+    //Options.
+    public setOptions(){}
+    public getOptions(): any{}
+    set scale(v: number){this.scale = v}
+    get scale(): number{return this.scale}
+
+    //Source mei.
+    public loadMeiText(){}
+    public reloadMeiText(){}
+
+    // Render staffs.
     public render(){}
     private render2SVG(){}
-    public on(e: IEvent, cb: handler){}
-    public listenEvent(){}
-    public registerEvent(e: IEvent, handler: handler){}
-    private trigger(){}
-
+    public exportSVG(){}
     public zoom(){}
     public reDraw(){}
-    public export(){}
     public play(){}
-    public genMidi(){}
+    public render2MIDI(){}
+
+    // Event staffs.
+    public on(e: IEvent, cb: ehandler){}
+    public listenEvent(){}
+    public registerEvent(e: IEvent, cb: ehandler){}
+    private trigger(){}
     private distribute(){}
 }

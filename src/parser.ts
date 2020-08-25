@@ -72,9 +72,17 @@ export class Parser implements IParser {
         p.offset = this.offset;
         return p;
     };
+
+    private march(n: number): void{
+        //TODO reset cursor
+        this.advancePositionWithMutation(n);
+        this.offset += n;
+    }
+
     private seek(p: number){
         this.cursor = p;
     }
+
     public codePointAt: (s: string, i: number) => number = (String.prototype as any).codePointAt ? (s, i) => (s as any).codePointAt(i) : function codePointAt(str, i): number {
         // from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/codePointAt
         const size = str.length;
@@ -95,7 +103,7 @@ export class Parser implements IParser {
         return first;
     }
     public static isLowerCaseLetter(ch: number):boolean{
-        return ch >= CharacterCodes.a && ch <= CharacterCodes.z;
+        return ch >= types.CharacterCodes.a && ch <= types.CharacterCodes.z;
     }
     public buildAst():void {
         let root: types.IRootNode;
@@ -108,7 +116,46 @@ export class Parser implements IParser {
         return this.remainderText.startsWith(target)
     }
 
-    protected parseComment(){}
+    public static log(s: string){
+        console.log(s)
+    }
+
+    protected parseComment(){
+        const start = this.tell()
+        let content: string
+
+        // Regular comment.
+        const match = /--(\!)?>/.exec(this.text)
+        if (!match) {
+            content = this.text.slice(4)
+            this.march(this.text.length)
+            Parser.log('err')
+        } else {
+            if (match.index <= 3) {
+                Parser.log('err')
+            }
+            if (match[1]) {
+                Parser.log('err')
+            }
+            content = this.text.slice(4, match.index)
+
+            // Advancing with reporting nested comments.
+            const s = this.text.slice(0, match.index)
+            let prevIndex = 1, nestedIndex = 0
+            while ((nestedIndex = s.indexOf('<!--', prevIndex)) !== -1) {
+                this.march(nestedIndex - prevIndex + 1)
+                if (nestedIndex + 4 < s.length) {
+                    Parser.log('err')
+                }
+                prevIndex = nestedIndex + 1
+            }
+            this.march(match.index + match[0].length - prevIndex + 1)
+        }
+
+        return {
+            kind: types.MeiToken.COMMENT,
+        }
+    }
     protected parseElement(){}
     protected parseEndTag(){}
     protected parseAttr(){}
@@ -153,11 +200,7 @@ export class Parser implements IParser {
         let index = this.text.indexOf(s, this.cursor);
         return index !== -1 ? index - this.anchor : -1;
     }
-    private advanceBy(n: number): void{
-        //TODO reset cursor
-        this.advancePositionWithMutation(n);
-        this.offset += n;
-    }
+
     private advancePositionWithMutation(numberOfCharacters: number = this.currentText.length): void {
         let linesCount = 0;
         let lastNewLinePos = -1;
