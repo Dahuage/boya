@@ -39,8 +39,15 @@ export class Mei {
     public exportSVG(){}
     public zoom(){}
     public reDraw(){}
-    public play(){}
     public render2MIDI(){}
+    public exportMIDI(){}
+
+    public play(){}
+    public pause(){}
+    public restart(){}
+    public playNote(n: any){}
+    public get position(): any{ return null}
+    public set position(n: any){}
 
     // Event staffs.
     public on(e: IEvent, cb: ehandler){}
@@ -48,4 +55,5 @@ export class Mei {
     public registerEvent(e: IEvent, cb: ehandler){}
     private trigger(){}
     private distribute(){}
+
 }
